@@ -1,0 +1,81 @@
+# services:
+#   db:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: myuser
+#       POSTGRES_PASSWORD: mypassword
+#       POSTGRES_DB: mydatabase
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     networks:
+#       - mynetwork
+
+#   app:
+#     build: .
+#     command: uvicorn main:app --host 0.0.0.0 --port 8000
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+#     networks:
+#       - mynetwork
+
+# networks:
+#   mynetwork:
+
+# volumes:
+#   postgres_data:
+# services:
+#   db:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: myuser
+#       POSTGRES_PASSWORD: mypassword
+#       POSTGRES_DB: mydatabase
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     networks:
+#       - mynetwork
+
+#   app:
+#     build: .
+#     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+#     networks:
+#       - mynetwork
+
+# networks:
+#   mynetwork:
+
+# volumes:
+#   postgres_data:
+
+services:
+  app:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
+
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
